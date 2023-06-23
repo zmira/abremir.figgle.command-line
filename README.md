@@ -23,12 +23,14 @@ Usage:
 Options:
   -t, --text <text>  Specify the text to be rendered. [default: Hello, world!]
   -f, --font <font>  Specify which font(s) will be used to render the text.
+  -l, --list         Display list of all Figgle fonts
   --version          Show version information
   -?, -h, --help     Show help and usage information
 ```
 
-## Dependencies
+## Dependencies &amp; Acknowledgements
 
 * [command-line-api](https://github.com/dotnet/command-line-api)
 * [figgle](https://github.com/drewnoakes/figgle)
 * [Pastel](https://github.com/silkfire/Pastel)
+* [TableBuilder](./src/abremir.Figgle.CommandLine/TableBuilder.cs) is based on [Console_Menu_Tools/TableBuilder](https://github.com/Grizzly-pride/Console_Menu_Tools)

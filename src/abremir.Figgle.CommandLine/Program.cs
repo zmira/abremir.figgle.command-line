@@ -1,6 +1,9 @@
-﻿using System.CommandLine;
+﻿using System.Collections.Immutable;
+using System.CommandLine;
 using System.Drawing;
 using System.Reflection;
+using System.Text;
+using abremir.Figgle.CommandLine;
 using Figgle;
 using Pastel;
 
@@ -10,14 +13,16 @@ var fontOption = new Option<List<string>>(new string[] { "-f", "--font" }, "Spec
     AllowMultipleArgumentsPerToken = true,
     Arity = ArgumentArity.ZeroOrMore
 };
+var listOption = new Option<bool>(new string[] { "-l", "--list" }, "Display list of all Figgle fonts");
 
 var rootCommand = new RootCommand("Render text using figgle fonts")
 {
     textOption,
-    fontOption
+    fontOption,
+    listOption
 };
 
-rootCommand.SetHandler((textOptionValue, fontOptionValue) =>
+rootCommand.SetHandler((textOptionValue, fontOptionValue, listOptionValue) =>
 {
     var figgleFontProperties = typeof(FiggleFonts)
         .GetProperties(BindingFlags.Static | BindingFlags.Public)
@@ -38,6 +43,30 @@ rootCommand.SetHandler((textOptionValue, fontOptionValue) =>
         return;
     }
 
+    if (listOptionValue)
+    {
+        var fontNames = figgleFontProperties
+            .OrderBy(propertyInfo => propertyInfo.Name)
+            .Select(propertyInfo => propertyInfo.Name)
+            .ToImmutableList();
+        var longestLenght = fontNames.Max(fontName => fontName.Length);
+        var columns = Console.WindowWidth / longestLenght;
+
+        var table = new TableBuilder(columns, longestLenght);
+        var stringBuilder = new StringBuilder();
+        stringBuilder.AppendLine(table.AddTopLine());
+
+        foreach (var chunk in fontNames.Chunk(columns))
+        {
+            stringBuilder.AppendLine(table.AddRow(chunk));
+        }
+
+        stringBuilder.AppendLine(table.AddEndLine());
+
+        Console.WriteLine(stringBuilder.ToString().Pastel(Color.LightGray));
+        return;
+    }
+
     foreach (var figgleFontProperty in figgleFontProperties)
     {
         try
@@ -53,6 +82,6 @@ rootCommand.SetHandler((textOptionValue, fontOptionValue) =>
             Console.ReadLine();
         }
     }
-}, textOption, fontOption);
+}, textOption, fontOption, listOption);
 
 await rootCommand.InvokeAsync(args);
