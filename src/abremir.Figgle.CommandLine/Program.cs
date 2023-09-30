@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using abremir.Figgle.CommandLine;
 using Figgle;
-using Pastel;
+using PastelExtended;
 
 var textOption = new Option<string>(new string[] { "-t", "--text" }, () => "Hello, world!", "Specify the text to be rendered.");
 var fontOption = new Option<List<string>>(new string[] { "-f", "--font" }, "Specify which font(s) will be used to render the text.")
@@ -39,7 +39,7 @@ rootCommand.SetHandler((textOptionValue, fontOptionValue, listOptionValue) =>
 
     if (!figgleFontProperties.Any())
     {
-        Console.WriteLine("No fonts found to render!".Pastel(Color.Orange));
+        Console.WriteLine("No fonts found to render!".Fg(Color.Orange));
         return;
     }
 
@@ -63,7 +63,7 @@ rootCommand.SetHandler((textOptionValue, fontOptionValue, listOptionValue) =>
 
         stringBuilder.AppendLine(table.AddEndLine());
 
-        Console.WriteLine(stringBuilder.ToString().Pastel(Color.LightGray));
+        Console.WriteLine(stringBuilder.ToString().Fg(Color.LightGray));
         return;
     }
 
@@ -71,14 +71,14 @@ rootCommand.SetHandler((textOptionValue, fontOptionValue, listOptionValue) =>
     {
         try
         {
-            Console.WriteLine(figgleFontProperty.Name.Pastel(Color.LimeGreen));
-            Console.WriteLine(((FiggleFont)figgleFontProperty.GetValue(null)!).Render(textOptionValue).Pastel(Color.LightGray));
+            Console.WriteLine(figgleFontProperty.Name.Fg(Color.LimeGreen));
+            Console.WriteLine(((FiggleFont)figgleFontProperty.GetValue(null)!).Render(textOptionValue).Fg(Color.LightGray));
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message.Pastel(Color.Red));
-            Console.WriteLine(ex.StackTrace.Pastel(Color.IndianRed));
-            Console.WriteLine("Press ENTER to continue...".Pastel(Color.White));
+            Console.WriteLine(ex.Message.Fg(Color.Red));
+            Console.WriteLine(ex.StackTrace.Fg(Color.IndianRed));
+            Console.WriteLine("Press ENTER to continue...".Fg(Color.White));
             Console.ReadLine();
         }
     }
