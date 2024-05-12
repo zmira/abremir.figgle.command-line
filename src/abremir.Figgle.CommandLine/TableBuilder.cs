@@ -2,24 +2,23 @@
 using System.Text;
 using static System.String;
 
-
 namespace abremir.Figgle.CommandLine
 {
     sealed class TableBuilder
     {
         #region Line items
-        private const string TopLeftJoint = "┌";
-        private const string TopRightJoint = "┐";
-        private const string BottomLeftJoint = "└";
-        private const string BottomRightJoint = "┘";
-        private const string TopJoint = "┬";
-        private const string BottomJoint = "┴";
-        private const string HorizontalLine = "─";
-        private const string VerticalLine = "│";
+        private const char TopLeftJoint = '┌';
+        private const char TopRightJoint = '┐';
+        private const char BottomLeftJoint = '└';
+        private const char BottomRightJoint = '┘';
+        private const char TopJoint = '┬';
+        private const char BottomJoint = '┴';
+        private const char HorizontalLine = '─';
+        private const char VerticalLine = '│';
         #endregion
 
         private readonly int _columnsCount;
-        private int _columWidth;
+        private readonly int _columWidth;
 
         private readonly StringBuilder _sb = new();
 
@@ -52,7 +51,7 @@ namespace abremir.Figgle.CommandLine
         public string AddTopLine() => Line(TopLeftJoint, TopJoint, TopRightJoint);
         public string AddEndLine() => Line(BottomLeftJoint, BottomJoint, BottomRightJoint);
 
-        private string Line(string leftJoint, string midleJoint, string rightJoint)
+        private string Line(char leftJoint, char middleJoint, char rightJoint)
         {
             _sb.Clear();
             _sb.Capacity = Math.Abs(_columnsCount * _columWidth);
@@ -68,7 +67,7 @@ namespace abremir.Figgle.CommandLine
                         switch (joint)
                         {
                             case 0: _sb.Append(leftJoint); break;
-                            case int j when j == size: _sb.Append(HorizontalLine + midleJoint); break;
+                            case int j when j == size: _sb.Append(HorizontalLine).Append(middleJoint); break;
                             default: _sb.Append(HorizontalLine); break;
                         }
                     }
@@ -90,6 +89,7 @@ namespace abremir.Figgle.CommandLine
                     }
                 }
             }
+
             return _sb.ToString();
         }
     }
