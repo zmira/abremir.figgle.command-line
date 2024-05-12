@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.Figgle.CommandLine", "abremir.Figgle.CommandLine\abremir.Figgle.CommandLine.csproj", "{D0D5BBFD-4F1E-4D73-B04A-5E9A697BA8A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.Figgle.CommandLine", "abremir.Figgle.CommandLine\abremir.Figgle.CommandLine.csproj", "{D0D5BBFD-4F1E-4D73-B04A-5E9A697BA8A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B231ED4C-AECC-419A-9394-8F36DEEC0E4C}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
