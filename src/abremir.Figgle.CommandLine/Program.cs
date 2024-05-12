@@ -77,7 +77,7 @@ rootCommand.SetHandler((textOptionValue, fontOptionValue, listOptionValue) =>
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message.Fg(Color.Red));
-            Console.WriteLine(ex.StackTrace.Fg(Color.IndianRed));
+            Console.WriteLine(ex.StackTrace?.Fg(Color.IndianRed));
             Console.WriteLine("Press ENTER to continue...".Fg(Color.White));
             Console.ReadLine();
         }
