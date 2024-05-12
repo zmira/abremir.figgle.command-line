@@ -84,7 +84,7 @@ namespace abremir.Figgle.CommandLine
                     {
                         switch (joint)
                         {
-                            case int j when j == size: _sb.Append(midleJoint); break;
+                            case int j when j == size: _sb.Append(middleJoint); break;
                             default: _sb.Append(HorizontalLine); break;
                         }
                     }

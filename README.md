@@ -28,7 +28,7 @@ Options:
   -?, -h, --help     Show help and usage information
 ```
 
-## Dependencies &amp; Acknowledgements
+## Dependencies &amp; Acknowledgments
 
 * [command-line-api](https://github.com/dotnet/command-line-api)
 * [figgle](https://github.com/drewnoakes/figgle)
