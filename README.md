@@ -33,4 +33,4 @@ Options:
 * [command-line-api](https://github.com/dotnet/command-line-api)
 * [figgle](https://github.com/drewnoakes/figgle)
 * [Pastel](https://github.com/silkfire/Pastel)
-* [TableBuilder](./src/abremir.Figgle.CommandLine/TableBuilder.cs) is based on [Console_Menu_Tools/TableBuilder](https://github.com/Grizzly-pride/Console_Menu_Tools)
+* [TableBuilder](./source/abremir.Figgle.CommandLine/TableBuilder.cs) is based on [Console_Menu_Tools/TableBuilder](https://github.com/Grizzly-pride/Console_Menu_Tools)
