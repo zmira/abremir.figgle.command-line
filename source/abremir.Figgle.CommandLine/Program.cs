@@ -23,19 +23,49 @@ var listOption = new Option<bool>("--list", ["-l"])
 {
     Description = "Display list of all Figgle fonts"
 };
+var fileOption = new Option<string>("--file-path", ["-p"])
+{
+    Description = "Specify a font file to render the text",
+    AllowMultipleArgumentsPerToken = true,
+    Arity = ArgumentArity.ZeroOrOne
+};
+fileOption.Validators.Add(result =>
+{
+    if (result.Tokens.Any() && !File.Exists(result.Tokens[0].Value))
+    {
+        result.AddError("The specified font file does not exist.");
+    }
+});
 
 var rootCommand = new RootCommand("Render text using figgle fonts")
 {
     textOption,
     fontOption,
     listOption,
+    fileOption,
 };
 
 rootCommand.SetAction(parseResult =>
 {
     var textOptionValue = parseResult.GetValue(textOption);
     var fontOptionValue = parseResult.GetValue(fontOption);
+    var fileOptionValue = parseResult.GetValue(fileOption);
     var listOptionValue = parseResult.GetValue(listOption);
+
+    if (!string.IsNullOrWhiteSpace(fileOptionValue))
+    {
+        try
+        {
+            var fontFile = FiggleFontParser.Parse(File.OpenRead(fileOptionValue));
+            Console.WriteLine(fontFile.Render(textOptionValue!).Pastel(Color.LightGray));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message.Pastel(Color.Red));
+            Console.WriteLine(ex.StackTrace?.Pastel(Color.IndianRed));
+        }
+        return;
+    }
 
     var figgleFontProperties = typeof(FiggleFonts)
         .GetProperties(BindingFlags.Static | BindingFlags.Public)
