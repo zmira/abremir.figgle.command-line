@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 env:
-  PACKAGE_NAME: abremir.Figgle.CommandLine
+  PACKAGE_NAME: abremir.FiggleConsole
 
 jobs:
   release:

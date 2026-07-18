@@ -2,7 +2,7 @@
 using System.Text;
 using static System.String;
 
-namespace abremir.Figgle.CommandLine
+namespace abremir.FiggleConsole
 {
     sealed class TableBuilder
     {

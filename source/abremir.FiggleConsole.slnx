@@ -5,5 +5,5 @@
     <File Path="../README.md" />
     <File Path=".editorconfig" />
   </Folder>
-  <Project Path="abremir.Figgle.CommandLine/abremir.Figgle.CommandLine.csproj" />
+  <Project Path="abremir.FiggleConsole/abremir.FiggleConsole.csproj" />
 </Solution>

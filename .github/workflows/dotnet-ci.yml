@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  PACKAGE_NAME: abremir.Figgle.CommandLine
+  PACKAGE_NAME: abremir.FiggleConsole
 
 jobs:
   build:

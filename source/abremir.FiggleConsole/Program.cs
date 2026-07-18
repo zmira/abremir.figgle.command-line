@@ -3,7 +3,7 @@ using System.CommandLine;
 using System.Drawing;
 using System.Reflection;
 using System.Text;
-using abremir.Figgle.CommandLine;
+using abremir.FiggleConsole;
 using Figgle;
 using Figgle.Fonts;
 using Pastel;
