@@ -1,7 +1,7 @@
 > [!NOTE]
 > [drewnoakes] (maintainer of [figgle](https://github.com/drewnoakes/figgle)) has published a website where you can preview all 250+ Figgle fonts in your browser =>  <https://drewnoakes.github.io/figgle/>
 
-# abremir.figgle.command-line
+# abremir.Figgle.Command-Line
 
 Command line tool to render text as [figgle](https://github.com/drewnoakes/figgle) banners.
 
