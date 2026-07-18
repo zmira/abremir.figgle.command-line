@@ -1,37 +1,80 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.CommandLine;
 using System.Drawing;
 using System.Reflection;
 using System.Text;
 using abremir.Figgle.CommandLine;
 using Figgle;
-using PastelExtended;
+using Figgle.Fonts;
+using Pastel;
 
-var textOption = new Option<string>(new string[] { "-t", "--text" }, () => "Hello, world!", "Specify the text to be rendered.");
-var fontOption = new Option<List<string>>(new string[] { "-f", "--font" }, "Specify which font(s) will be used to render the text.")
+var textOption = new Option<string>("--text", ["-t"])
 {
+    Description = "Specify the text to be rendered",
+    DefaultValueFactory = _ => "Hello, world!"
+};
+var fontOption = new Option<List<string>>("--font", ["-f"])
+{
+    Description = "Specify which embedded font(s) will be used to render the text",
     AllowMultipleArgumentsPerToken = true,
     Arity = ArgumentArity.ZeroOrMore
 };
-var listOption = new Option<bool>(new string[] { "-l", "--list" }, "Display list of all Figgle fonts");
+var listOption = new Option<bool>("--list", ["-l"])
+{
+    Description = "Display list of all Figgle fonts"
+};
+var fileOption = new Option<string>("--file-path", ["-p"])
+{
+    Description = "Specify a font file to render the text",
+    AllowMultipleArgumentsPerToken = true,
+    Arity = ArgumentArity.ZeroOrOne
+};
+fileOption.Validators.Add(result =>
+{
+    if (result.Tokens.Any() && !File.Exists(result.Tokens[0].Value))
+    {
+        result.AddError("The specified font file does not exist.");
+    }
+});
 
 var rootCommand = new RootCommand("Render text using figgle fonts")
 {
     textOption,
     fontOption,
-    listOption
+    listOption,
+    fileOption,
 };
 
-rootCommand.SetHandler((textOptionValue, fontOptionValue, listOptionValue) =>
+rootCommand.SetAction(parseResult =>
 {
+    var textOptionValue = parseResult.GetValue(textOption);
+    var fontOptionValue = parseResult.GetValue(fontOption);
+    var fileOptionValue = parseResult.GetValue(fileOption);
+    var listOptionValue = parseResult.GetValue(listOption);
+
+    if (!string.IsNullOrWhiteSpace(fileOptionValue))
+    {
+        try
+        {
+            var fontFile = FiggleFontParser.Parse(File.OpenRead(fileOptionValue));
+            Console.WriteLine(fontFile.Render(textOptionValue!).Pastel(Color.LightGray));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message.Pastel(Color.Red));
+            Console.WriteLine(ex.StackTrace?.Pastel(Color.IndianRed));
+        }
+        return;
+    }
+
     var figgleFontProperties = typeof(FiggleFonts)
         .GetProperties(BindingFlags.Static | BindingFlags.Public)
         .Where(propertyInfo => propertyInfo.PropertyType == typeof(FiggleFont));
 
-    if (fontOptionValue.Count is not 0)
+    if (fontOptionValue?.Count is not 0)
     {
         figgleFontProperties = figgleFontProperties
-            .Where(propertyInfo => fontOptionValue.Contains(propertyInfo.Name, StringComparer.OrdinalIgnoreCase));
+            .Where(propertyInfo => fontOptionValue!.Contains(propertyInfo.Name, StringComparer.OrdinalIgnoreCase));
     }
 
     figgleFontProperties = figgleFontProperties
@@ -39,7 +82,7 @@ rootCommand.SetHandler((textOptionValue, fontOptionValue, listOptionValue) =>
 
     if (!figgleFontProperties.Any())
     {
-        Console.WriteLine("No fonts found to render!".Fg(Color.Orange));
+        Console.WriteLine("No fonts found to render!".Pastel(Color.Orange));
         return;
     }
 
@@ -63,7 +106,7 @@ rootCommand.SetHandler((textOptionValue, fontOptionValue, listOptionValue) =>
 
         stringBuilder.AppendLine(table.AddEndLine());
 
-        Console.WriteLine(stringBuilder.ToString().Fg(Color.LightGray));
+        Console.WriteLine(stringBuilder.ToString().Pastel(Color.LightGray));
         return;
     }
 
@@ -71,17 +114,17 @@ rootCommand.SetHandler((textOptionValue, fontOptionValue, listOptionValue) =>
     {
         try
         {
-            Console.WriteLine(figgleFontProperty.Name.Fg(Color.LimeGreen));
-            Console.WriteLine(((FiggleFont)figgleFontProperty.GetValue(null)!).Render(textOptionValue).Fg(Color.LightGray));
+            Console.WriteLine(figgleFontProperty.Name.Pastel(Color.LimeGreen));
+            Console.WriteLine(((FiggleFont)figgleFontProperty.GetValue(null)!).Render(textOptionValue!).Pastel(Color.LightGray));
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message.Fg(Color.Red));
-            Console.WriteLine(ex.StackTrace?.Fg(Color.IndianRed));
-            Console.WriteLine("Press ENTER to continue...".Fg(Color.White));
+            Console.WriteLine(ex.Message.Pastel(Color.Red));
+            Console.WriteLine(ex.StackTrace?.Pastel(Color.IndianRed));
+            Console.WriteLine("Press ENTER to continue...".Pastel(Color.White));
             Console.ReadLine();
         }
     }
-}, textOption, fontOption, listOption);
+});
 
-await rootCommand.InvokeAsync(args);
+await rootCommand.Parse(args).InvokeAsync();
