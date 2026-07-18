@@ -1,11 +1,11 @@
 > [!NOTE]
 > [drewnoakes] (maintainer of [figgle](https://github.com/drewnoakes/figgle)) has published a website where you can preview all 250+ Figgle fonts in your browser =>  <https://drewnoakes.github.io/figgle/>
 
-# abremir.Figgle.Command-Line
+# abremir.FiggleConsole
 
 Command line tool to render text as [figgle](https://github.com/drewnoakes/figgle) banners.
 
-![abremir.Figgle.CommandLine](./assets/abremir.Figgle.CommandLine.png)
+![abremir.FiggleConsole](./assets/abremir.FiggleConsole.png)
 
 ## Motivation
 
@@ -18,7 +18,7 @@ Description:
   Render text using figgle fonts
 
 Usage:
-  abremir.Figgle.CommandLine [options]
+  abremir.FiggleConsole [options]
 
 Options:
   -t, --text <text>            Specify the text to be rendered [default: Hello, world!]
@@ -34,5 +34,5 @@ Options:
 * [command-line-api](https://github.com/dotnet/command-line-api)
 * [figgle](https://github.com/drewnoakes/figgle)
 * [Pastel](https://github.com/silkfire/Pastel)
-* [TableBuilder](./source/abremir.Figgle.CommandLine/TableBuilder.cs) is based on [Console_Menu_Tools/TableBuilder](https://github.com/Grizzly-pride/Console_Menu_Tools)
+* [TableBuilder](./source/abremir.FiggleConsole/TableBuilder.cs) is based on [Console_Menu_Tools/TableBuilder](https://github.com/Grizzly-pride/Console_Menu_Tools)
 * [More figlet fonts](https://github.com/xero/figlet-fonts/blob/main/Examples.md)
